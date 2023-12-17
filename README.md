@@ -17,7 +17,7 @@ this project supports the following platforms:
 Browser support is not available yet. It will be added in the future.
 Note: the project is still in development and not all features are available on all platforms.
 
-### ⚙️ Before you Start
+## ⚙️ Before you Start
 
 Before you run the project, you need to get an API key from https://ai.google.dev in order to communicate with the Gemini API.
 Once the key is obtained, assign it the the constant `API_KEY` in the `GeminiService.kt` file:
