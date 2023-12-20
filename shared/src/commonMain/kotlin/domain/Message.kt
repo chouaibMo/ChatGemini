@@ -17,7 +17,9 @@ data class Message(
 
     private fun currentTime(): String {
         val datetime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        return "${datetime.hour}:${datetime.minute}"
+        val hour = if (datetime.hour < 10) "0${datetime.hour}" else datetime.hour
+        val minute = if (datetime.minute < 10) "0${datetime.minute}" else datetime.minute
+        return "${hour}:${minute}"
     }
 }
 
