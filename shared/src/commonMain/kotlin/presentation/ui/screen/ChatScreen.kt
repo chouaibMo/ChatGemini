@@ -3,7 +3,9 @@ package presentation.ui.screen
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -24,6 +26,7 @@ import kotlinx.coroutines.launch
 import presentation.ui.component.BottomBar
 import presentation.ui.component.ErrorSnackBar
 import presentation.ui.component.MessageBubble
+import presentation.ui.component.MessageImagesStack
 import presentation.ui.component.TopBar
 
 @Composable
@@ -54,10 +57,9 @@ fun ChatScreen() {
         snackbarHost = {
             SnackbarHost(snackBarHostState) { data -> ErrorSnackBar(data) }
         },
-        modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = { focusManager.clearFocus() })
-            },
+        modifier = Modifier.pointerInput(Unit) {
+            detectTapGestures(onTap = { focusManager.clearFocus() })
+        },
     ) {
         ChatList(
             modifier = Modifier.padding(it),
@@ -93,6 +95,10 @@ fun ChatList(modifier: Modifier, messages: List<Message>) {
     ) {
         items(messages.size) {
             val message = messages[it]
+            if (message.images.isNotEmpty()) {
+                MessageImagesStack(message = message)
+                Spacer(modifier = Modifier.height(4.dp))
+            }
             MessageBubble(message = message)
         }
     }
