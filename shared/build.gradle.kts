@@ -40,6 +40,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation("io.github.team-preat:peekaboo-ui:0.3.0")
+                implementation("io.github.team-preat:peekaboo-image-picker:0.3.0")
+
             }
         }
         val androidMain by getting {

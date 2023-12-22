@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import domain.Message
 import domain.Resource
 import kotlinx.coroutines.launch
-import presentation.ui.component.CustomTextField
+import presentation.ui.component.BottomBar
 import presentation.ui.component.ErrorSnackBar
 import presentation.ui.component.MessageBubble
 import presentation.ui.component.TopBar
@@ -38,15 +38,15 @@ fun ChatScreen() {
             TopBar()
         },
         bottomBar = {
-            CustomTextField(
+            BottomBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp)
                     .padding(bottom = 30.dp, top = 5.dp),
                 status = viewModel.status.value,
-                onSendClick = {
+                onSendClick = { text, images ->
                     coroutineScope.launch {
-                        viewModel.generateContent(it)
+                        viewModel.generateContent(text, images)
                     }
                 },
             )
