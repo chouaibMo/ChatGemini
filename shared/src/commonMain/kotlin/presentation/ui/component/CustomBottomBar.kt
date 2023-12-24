@@ -53,7 +53,7 @@ import presentation.theme.Gray700
  * TODO : allow sending attachments without text
  */
 @Composable
-fun BottomBar(
+fun CustomBottomBar(
     modifier: Modifier = Modifier,
     status: Resource,
     onSendClick: (String, List<ImageBitmap>) -> Unit
