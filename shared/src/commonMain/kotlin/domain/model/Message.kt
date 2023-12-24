@@ -1,4 +1,4 @@
-package domain
+package domain.model
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone

@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 import com.preat.peekaboo.image.picker.toImageBitmap
-import domain.Status
+import domain.model.Status
 import presentation.theme.Gray700
 
 /**
@@ -110,9 +110,9 @@ fun CustomBottomBar(
                         images.value = emptyList()
                         textState.value = ""
                     },
-                    enabled = textState.value.isNotBlank() && status != Status.LOADING,
+                    enabled = textState.value.isNotBlank() && status != Status.Loading,
                     content = {
-                        if (status is Status.LOADING)
+                        if (status is Status.Loading)
                             CircularProgressIndicator(
                                 modifier = Modifier.size(20.dp),
                                 color = MaterialTheme.colorScheme.onPrimary

@@ -21,7 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import domain.Message
+import domain.model.Message
+import domain.model.Status
 import kotlinx.coroutines.launch
 import presentation.theme.LightGreen
 import presentation.theme.LightRed
@@ -88,13 +89,16 @@ fun ChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
                 value = chatUiState.value.apiKey,
                 onVisibilityChanged = { showDialog.value = it },
                 onSaveClicked = {
-                    viewModel.setApiKey(it)
                     coroutineScope.launch {
+                        viewModel.setApiKey(it)
                         apiKeySnackBarHostState.currentSnackbarData?.dismiss()
-                        apiKeySnackBarHostState.showSnackbar(
-                            message = "API key saved successfully.",
-                            withDismissAction = true
-                        )
+                        if(chatUiState.value.status is Status.Success){
+                            apiKeySnackBarHostState.showSnackbar(
+                                message = (chatUiState.value.status as Status.Success).data,
+                                withDismissAction = true
+                            )
+                        }
+
                     }
                 }
             )
