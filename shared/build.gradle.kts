@@ -35,6 +35,7 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation("media.kamel:kamel-image:0.9.0")
                 implementation("dev.icerock.moko:mvvm-core:0.16.1")
+                implementation("dev.icerock.moko:mvvm-compose:0.16.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")

@@ -1,12 +1,13 @@
 package presentation.ui.screen
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
 import data.GeminiRepositoryImpl
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import domain.GeminiRepository
 import domain.Message
-import domain.Resource
+import domain.Status
 import domain.Sender
 import kotlinx.coroutines.launch
 
@@ -14,23 +15,23 @@ class ChatViewModel : ViewModel() {
 
     private val geminiRepository: GeminiRepository = GeminiRepositoryImpl()
 
-    //TODO : add uiState
-    val messages = mutableStateOf(listOf<Message>())
-    val status = mutableStateOf<Resource>(Resource.IDLE)
+    private val _uiState = mutableStateOf(ChatUiState())
+    val uiState: State<ChatUiState> = _uiState
+
+    init {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(apiKey = geminiRepository.getApiKey())
+        }
+    }
 
     fun setApiKey(key: String) {
         geminiRepository.setApiKey(key)
-        status.value = Resource.Success
-    }
-
-    fun getApiKey(): String {
-        return geminiRepository.getApiKey()
+        _uiState.value = _uiState.value.copy(apiKey = key, status = Status.SUCCESS)
     }
 
     fun generateContent(message: String, images: List<ImageBitmap> = emptyList()) {
-        addToMessages(message, images, Sender.User)
         viewModelScope.launch {
-            status.value = Resource.Loading
+            addToMessages(message, images, Sender.User)
             addToMessages("", emptyList(), Sender.Bot, true)
             try {
                 val response = geminiRepository.generateContent(message)
@@ -39,23 +40,27 @@ class ChatViewModel : ViewModel() {
                     response.candidates?.firstOrNull()?.content?.parts?.firstOrNull()?.text.orEmpty()
 
                 if (role.isNotEmpty() && responseText.isNotEmpty()) {
-                    status.value = Resource.Success
-                    updateLastBotMessage(responseText, false)
+                    updateLastBotMessage(responseText, Status.SUCCESS)
                 }
+
             } catch (e: Exception) {
                 e.printStackTrace()
-                status.value = Resource.Error
-                updateLastBotMessage("An error occurred, please retry.", false)
+                val errorMessage = "An error occurred, please retry."
+                updateLastBotMessage(errorMessage, Status.ERROR)
             }
         }
     }
 
-    private fun updateLastBotMessage(text: String, isLoading: Boolean) {
-        val lastMessage = messages.value.lastOrNull()
-        if (lastMessage != null && lastMessage.sender == Sender.Bot) {
-            val updatedMessages = messages.value.toMutableList()
-            updatedMessages[updatedMessages.lastIndex] = lastMessage.copy(text = text, isLoading = isLoading)
-            messages.value = updatedMessages
+    private fun updateLastBotMessage(text: String, status: Status) {
+        val messages = _uiState.value.messages.toMutableList()
+        if (messages.isNotEmpty() && messages.last().sender == Sender.Bot) {
+            val last = messages.last()
+            val updatedMessage = last.copy(text = text, isLoading = status == Status.LOADING)
+            messages[messages.lastIndex] = updatedMessage
+            _uiState.value = _uiState.value.copy(
+                messages = messages,
+                status = status
+            )
         }
     }
 
@@ -65,12 +70,10 @@ class ChatViewModel : ViewModel() {
         sender: Sender,
         isLoading: Boolean = false
     ) {
-        val botMessage = Message(
-            sender = sender,
-            text = text,
-            images = images,
-            isLoading = isLoading
+        val message = Message(sender, text, images, isLoading)
+        _uiState.value = _uiState.value.copy(
+            messages = _uiState.value.messages + message,
+            status = if (isLoading) Status.LOADING else Status.IDLE
         )
-        messages.value = messages.value + botMessage
     }
 }
