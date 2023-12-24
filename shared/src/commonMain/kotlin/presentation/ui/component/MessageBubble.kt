@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mikepenz.markdown.compose.Markdown
+import com.mikepenz.markdown.model.markdownColor
 import domain.Message
 import presentation.theme.Gray700
 
@@ -92,7 +96,14 @@ inline fun MessageBubble(message: Message, modifier: Modifier = Modifier) {
                                     modifier = Modifier.padding(top = 14.dp)
                                 )
                             } else {
-                                Text(text = message.text)
+                                Markdown(
+                                    content = message.text,
+                                    colors = markdownColor(
+                                        text = LocalContentColor.current,
+                                        codeText = MaterialTheme.colorScheme.tertiaryContainer
+                                    ),
+                                    modifier = Modifier.wrapContentWidth()
+                                )
                             }
                             Row(
                                 horizontalArrangement = Arrangement.End,

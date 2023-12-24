@@ -43,12 +43,13 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation("io.github.team-preat:peekaboo-ui:0.3.0")
                 implementation("io.github.team-preat:peekaboo-image-picker:0.3.0")
+                implementation("com.mikepenz:multiplatform-markdown-renderer:0.10.0")
 
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.8.1")
+                api("androidx.activity:activity-compose:1.8.2")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.12.0")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
