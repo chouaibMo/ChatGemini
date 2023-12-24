@@ -18,6 +18,15 @@ class ChatViewModel : ViewModel() {
     val messages = mutableStateOf(listOf<Message>())
     val status = mutableStateOf<Resource>(Resource.IDLE)
 
+    fun setApiKey(key: String) {
+        geminiRepository.setApiKey(key)
+        status.value = Resource.Success
+    }
+
+    fun getApiKey(): String {
+        return geminiRepository.getApiKey()
+    }
+
     fun generateContent(message: String, images: List<ImageBitmap> = emptyList()) {
         addToMessages(message, images, Sender.User)
         viewModelScope.launch {

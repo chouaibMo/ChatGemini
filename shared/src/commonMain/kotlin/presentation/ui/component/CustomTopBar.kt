@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.filled.Key
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,7 +35,7 @@ import presentation.theme.Gray700
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun TopBar(onActionClick: () -> Unit = {}, modifier: Modifier = Modifier) {
+fun CustomAppBar(onActionClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .background(MaterialTheme.colorScheme.primaryContainer)
@@ -88,9 +88,9 @@ fun TopBar(onActionClick: () -> Unit = {}, modifier: Modifier = Modifier) {
                     },
                     content = {
                         Icon(
-                            Icons.Outlined.Info,
+                            Icons.Filled.Key,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     },
                 )

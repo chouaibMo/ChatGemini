@@ -7,12 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun ErrorSnackBar(snackBarData: SnackbarData, ) {
+fun CustomSnackBar(
+    data: SnackbarData,
+    containerColor: Color,
+    contentColor: Color = Color.White,
+) {
     Snackbar(
-        containerColor = Color(0xFFf44949),
-        contentColor = Color.White,
+        containerColor = containerColor,
+        contentColor = contentColor,
         dismissActionContentColor = Color.White,
         shape = RoundedCornerShape(20),
-        snackbarData = snackBarData
+        snackbarData = data
     )
 }

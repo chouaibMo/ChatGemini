@@ -20,10 +20,11 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 const val BASE_URL = "https://generativelanguage.googleapis.com"
-const val API_KEY = "YOUR_API_KEY"
-const val TIMEOUT  = 30000L
-object GeminiService {
-    @OptIn(ExperimentalSerializationApi::class)
+const val TIMEOUT = 30000L
+
+@OptIn(ExperimentalSerializationApi::class, InternalAPI::class)
+class GeminiService {
+
     private val client = HttpClient {
         install(ContentNegotiation) {
             json(Json {
@@ -44,9 +45,19 @@ object GeminiService {
         }
     }
 
-    @OptIn(InternalAPI::class)
+    // Enter your personal api key here
+    private var apiKey: String = ""
+
+    fun getApiKey(): String {
+        return apiKey
+    }
+
+    fun setApiKey(key: String) {
+        apiKey = key
+    }
+
     suspend fun generateContent(content: String): Response {
-        val url = "$BASE_URL/v1beta/models/gemini-pro:generateContent?key=$API_KEY"
+        val url = "$BASE_URL/v1beta/models/gemini-pro:generateContent?key=$apiKey"
 
         val requestBody = mapOf(
             "contents" to listOf(

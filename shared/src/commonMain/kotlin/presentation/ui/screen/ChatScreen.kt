@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -23,11 +24,13 @@ import androidx.compose.ui.unit.dp
 import domain.Message
 import domain.Resource
 import kotlinx.coroutines.launch
-import presentation.ui.component.BottomBar
-import presentation.ui.component.ErrorSnackBar
+import presentation.ui.component.CustomBottomBar
+import presentation.ui.component.CustomDialog
+import presentation.ui.component.CustomSnackBar
 import presentation.ui.component.MessageBubble
 import presentation.ui.component.MessageImagesStack
-import presentation.ui.component.TopBar
+import presentation.ui.component.CustomAppBar
+import presentation.ui.extension.snackBarColor
 
 @Composable
 fun ChatScreen() {
@@ -35,13 +38,14 @@ fun ChatScreen() {
     val viewModel = remember { ChatViewModel() }
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
+    val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            TopBar()
+            CustomAppBar(onActionClick = { showDialog.value = true })
         },
         bottomBar = {
-            BottomBar(
+            CustomBottomBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp)
@@ -55,7 +59,12 @@ fun ChatScreen() {
             )
         },
         snackbarHost = {
-            SnackbarHost(snackBarHostState) { data -> ErrorSnackBar(data) }
+            SnackbarHost(snackBarHostState) { data ->
+                CustomSnackBar(
+                    data = data,
+                    containerColor = viewModel.status.value.snackBarColor()
+                )
+            }
         },
         modifier = Modifier.pointerInput(Unit) {
             detectTapGestures(onTap = { focusManager.clearFocus() })
@@ -65,6 +74,22 @@ fun ChatScreen() {
             modifier = Modifier.padding(it),
             messages = viewModel.messages.value
         )
+
+        if (showDialog.value) {
+            CustomDialog(
+                value = viewModel.getApiKey(),
+                onVisibilityChanged = { showDialog.value = it },
+                onSaveClicked = {
+                    viewModel.setApiKey(it)
+                    coroutineScope.launch {
+                        snackBarHostState.showSnackbar(
+                            message = "API key saved successfully.",
+                            withDismissAction = true
+                        )
+                    }
+                }
+            )
+        }
 
         if (viewModel.status.value is Resource.Error) {
             coroutineScope.launch {
