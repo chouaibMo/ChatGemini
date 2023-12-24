@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.model.markdownColor
-import domain.Message
+import domain.model.Message
 import presentation.theme.Gray700
 
 @Composable

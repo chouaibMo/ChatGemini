@@ -1,4 +1,4 @@
-package data.dto
+package data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -6,9 +6,26 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Response(
-    @SerialName("candidates") val candidates: List<Candidate>? = null,
+    @SerialName("candidates") val candidates: List<Candidate>,
     @SerialName("promptFeedback") val promptFeedback: PromptFeedback? = null,
-)
+) {
+    fun getText(): String? {
+        if (candidates.isEmpty()) {
+            println("No candidates were found, but was asked to get a candidate.")
+            return null
+        }
+
+        val parts = candidates.first().content?.parts
+
+        return parts?.let {
+            println("Returning first part of ${it.size} parts.")
+            it.firstOrNull()?.text
+        } ?: run {
+            println("No parts were found, but was asked to get a candidate.")
+            null
+        }
+    }
+}
 
 @Serializable
 data class Candidate(

@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.preat.peekaboo.image.picker.toImageBitmap
-import domain.Message
+import domain.model.Message
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

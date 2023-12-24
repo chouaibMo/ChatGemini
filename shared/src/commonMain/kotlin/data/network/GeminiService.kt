@@ -1,7 +1,7 @@
-package data
+package data.network
 
-import data.dto.Request
-import data.dto.Response
+import data.network.dto.Request
+import data.network.dto.Response
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -9,11 +9,8 @@ import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -51,7 +48,7 @@ class GeminiService {
     // region API key
 
     // Enter your personal api key here
-    private var apiKey: String = "AIzaSyBxTJeM-KrP4ThDht3sNOQHdARnc4e9wiI"
+    private var apiKey: String = ""
 
     fun getApiKey(): String {
         return apiKey
@@ -81,12 +78,12 @@ class GeminiService {
         try {
             val request = Request.RequestBuilder().apply(requestBuilder).build()
 
-            val responseText: String = client.post(url) {
-                header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            val response: String = client.post(url) {
                 body = Json.encodeToString(request)
             }.bodyAsText()
 
-            return Json.decodeFromString(responseText)
+            return Json.decodeFromString(response)
+
         } catch (e: Exception) {
             println("Error during API request: ${e.message}")
             throw e

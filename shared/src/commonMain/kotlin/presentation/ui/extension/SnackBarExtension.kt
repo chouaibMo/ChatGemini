@@ -1,15 +1,15 @@
 package presentation.ui.extension
 
 import androidx.compose.material3.SnackbarHostState
-import domain.Status
+import domain.model.Status
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 fun SnackbarHostState.showSnackBar(scope: CoroutineScope, status: Status) {
-    if (status is Status.ERROR) {
+    if (status is Status.Error) {
         scope.launch {
             showSnackbar(
-                message = "An error occurred, please retry.",
+                message = status.message,
                 withDismissAction = true
             )
         }
