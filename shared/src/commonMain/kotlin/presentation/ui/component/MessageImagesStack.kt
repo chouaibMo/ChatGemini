@@ -45,10 +45,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.preat.peekaboo.image.picker.toImageBitmap
 import domain.Message
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 private const val rotationValue = 45f
 
@@ -83,12 +83,12 @@ fun MessageImagesStack(
                 cardShape = RoundedCornerShape(20.dp),
                 cardContent = { index ->
                     Image(
-                        bitmap = message.images[index],
+                        bitmap = message.images[index].toImageBitmap(),
                         contentDescription = "Same Card Type with Different Image",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .heightIn(100.dp, 300.dp)
-                            .widthIn(50.dp, 240.dp)
+                            .widthIn(50.dp, 200.dp)
                     )
                 },
                 orientation = Orientation.Horizontal(

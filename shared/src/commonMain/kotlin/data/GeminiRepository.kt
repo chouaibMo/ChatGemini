@@ -1,14 +1,18 @@
 package data
 
 import domain.GeminiRepository
-import domain.Response
+import data.dto.Response
 
 class GeminiRepositoryImpl : GeminiRepository {
 
     private val geminiService = GeminiService()
 
-    override suspend fun generateContent(content: String): Response {
-        return geminiService.generateContent(content)
+    override suspend fun generate(prompt: String, images: List<ByteArray>): Response {
+        return if(images.isEmpty()) {
+            geminiService.generateContent(prompt)
+        } else {
+            geminiService.generateContentWithMedia(prompt, images)
+        }
     }
 
     override fun getApiKey(): String {

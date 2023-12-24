@@ -56,26 +56,21 @@ import presentation.theme.Gray700
 fun CustomBottomBar(
     modifier: Modifier = Modifier,
     status: Status,
-    onSendClick: (String, List<ImageBitmap>) -> Unit
+    onSendClick: (String, List<ByteArray>) -> Unit
 ) {
     val textState = remember { mutableStateOf("") }
-    val images = remember { mutableStateOf(listOf<ImageBitmap>()) }
+    val images = remember { mutableStateOf(listOf<ByteArray>()) }
 
     val scope = rememberCoroutineScope()
     val multipleImagePicker = rememberImagePickerLauncher(
         selectionMode = SelectionMode.Multiple(),
         scope = scope,
-        onResult = { byteArrays ->
-            images.value = emptyList()
-            byteArrays.forEach {
-                images.value = images.value + it.toImageBitmap()
-            }
-        }
+        onResult = { images.value = it }
     )
     Column {
         LazyRow {
             items(images.value.size) { index ->
-                val bitmap = images.value[index]
+                val bitmap = images.value[index].toImageBitmap()
                 ImageAttachment(
                     bitmap = bitmap,
                     onCloseClick = {

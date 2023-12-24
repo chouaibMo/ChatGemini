@@ -2,13 +2,12 @@ package presentation.ui.screen
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.ImageBitmap
 import data.GeminiRepositoryImpl
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import domain.GeminiRepository
 import domain.Message
-import domain.Status
 import domain.Sender
+import domain.Status
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
@@ -29,12 +28,12 @@ class ChatViewModel : ViewModel() {
         _uiState.value = _uiState.value.copy(apiKey = key, status = Status.SUCCESS)
     }
 
-    fun generateContent(message: String, images: List<ImageBitmap> = emptyList()) {
+    fun generateContent(message: String, images: List<ByteArray> = emptyList()) {
         viewModelScope.launch {
             addToMessages(message, images, Sender.User)
             addToMessages("", emptyList(), Sender.Bot, true)
             try {
-                val response = geminiRepository.generateContent(message)
+                val response = geminiRepository.generate(message, images)
                 val role = response.candidates?.firstOrNull()?.content?.role.orEmpty()
                 val responseText =
                     response.candidates?.firstOrNull()?.content?.parts?.firstOrNull()?.text.orEmpty()
@@ -66,7 +65,7 @@ class ChatViewModel : ViewModel() {
 
     private fun addToMessages(
         text: String,
-        images: List<ImageBitmap>,
+        images: List<ByteArray>,
         sender: Sender,
         isLoading: Boolean = false
     ) {

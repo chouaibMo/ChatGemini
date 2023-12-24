@@ -1,6 +1,7 @@
 package data
 
-import domain.Response
+import data.dto.Request
+import data.dto.Response
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -25,6 +26,7 @@ const val TIMEOUT = 30000L
 @OptIn(ExperimentalSerializationApi::class, InternalAPI::class)
 class GeminiService {
 
+    // region Setup
     private val client = HttpClient {
         install(ContentNegotiation) {
             json(Json {
@@ -44,9 +46,12 @@ class GeminiService {
             level = LogLevel.ALL
         }
     }
+    // endregion
+
+    // region API key
 
     // Enter your personal api key here
-    private var apiKey: String = ""
+    private var apiKey: String = "AIzaSyBxTJeM-KrP4ThDht3sNOQHdARnc4e9wiI"
 
     fun getApiKey(): String {
         return apiKey
@@ -56,22 +61,30 @@ class GeminiService {
         apiKey = key
     }
 
-    suspend fun generateContent(content: String): Response {
-        val url = "$BASE_URL/v1beta/models/gemini-pro:generateContent?key=$apiKey"
+    // endregion
 
-        val requestBody = mapOf(
-            "contents" to listOf(
-                mapOf("parts" to listOf(mapOf("text" to content)))
-            )
-        )
+    // region API calls
+    suspend fun generateContent(prompt: String): Response {
+        return makeApiRequest("$BASE_URL/v1beta/models/gemini-pro:generateContent?key=$apiKey") {
+            addText(prompt)
+        }
+    }
 
+    suspend fun generateContentWithMedia(prompt: String, images: List<ByteArray>): Response {
+        return makeApiRequest("$BASE_URL/v1beta/models/gemini-pro-vision:generateContent?key=$apiKey") {
+            addText(prompt)
+            addImages(images)
+        }
+    }
+
+    private suspend fun makeApiRequest(url: String, requestBuilder: Request.RequestBuilder.() -> Unit): Response {
         try {
+            val request = Request.RequestBuilder().apply(requestBuilder).build()
+
             val responseText: String = client.post(url) {
                 header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                body = Json.encodeToString(requestBody)
+                body = Json.encodeToString(request)
             }.bodyAsText()
-
-            println("API Response: $responseText")
 
             return Json.decodeFromString(responseText)
         } catch (e: Exception) {
@@ -79,4 +92,7 @@ class GeminiService {
             throw e
         }
     }
+
+    // endregion
+
 }
