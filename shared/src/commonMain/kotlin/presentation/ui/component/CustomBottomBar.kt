@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 import com.preat.peekaboo.image.picker.toImageBitmap
-import domain.Resource
+import domain.Status
 import presentation.theme.Gray700
 
 /**
@@ -55,7 +55,7 @@ import presentation.theme.Gray700
 @Composable
 fun CustomBottomBar(
     modifier: Modifier = Modifier,
-    status: Resource,
+    status: Status,
     onSendClick: (String, List<ImageBitmap>) -> Unit
 ) {
     val textState = remember { mutableStateOf("") }
@@ -115,9 +115,9 @@ fun CustomBottomBar(
                         images.value = emptyList()
                         textState.value = ""
                     },
-                    enabled = textState.value.isNotBlank(),
+                    enabled = textState.value.isNotBlank() && status != Status.LOADING,
                     content = {
-                        if (status is Resource.Loading)
+                        if (status is Status.LOADING)
                             CircularProgressIndicator(
                                 modifier = Modifier.size(20.dp),
                                 color = MaterialTheme.colorScheme.onPrimary
