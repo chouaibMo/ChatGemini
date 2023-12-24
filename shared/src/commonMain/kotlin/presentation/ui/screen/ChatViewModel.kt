@@ -1,6 +1,7 @@
 package presentation.ui.screen
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.ImageBitmap
 import data.GeminiRepositoryImpl
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import domain.GeminiRepository
@@ -13,14 +14,15 @@ class ChatViewModel : ViewModel() {
 
     private val geminiRepository: GeminiRepository = GeminiRepositoryImpl()
 
+    //TODO : add uiState
     val messages = mutableStateOf(listOf<Message>())
     val status = mutableStateOf<Resource>(Resource.IDLE)
 
-    fun generateContent(message: String) {
-        addToMessages(message, Sender.User)
+    fun generateContent(message: String, images: List<ImageBitmap> = emptyList()) {
+        addToMessages(message, images, Sender.User)
         viewModelScope.launch {
             status.value = Resource.Loading
-            addToMessages("", Sender.Bot, true)
+            addToMessages("", emptyList(), Sender.Bot, true)
             try {
                 val response = geminiRepository.generateContent(message)
                 val role = response.candidates?.firstOrNull()?.content?.role.orEmpty()
@@ -48,8 +50,18 @@ class ChatViewModel : ViewModel() {
         }
     }
 
-    private fun addToMessages(text: String, sender: Sender, isLoading: Boolean = false) {
-        val botMessage = Message(sender = sender, text = text, isLoading)
+    private fun addToMessages(
+        text: String,
+        images: List<ImageBitmap>,
+        sender: Sender,
+        isLoading: Boolean = false
+    ) {
+        val botMessage = Message(
+            sender = sender,
+            text = text,
+            images = images,
+            isLoading = isLoading
+        )
         messages.value = messages.value + botMessage
     }
 }

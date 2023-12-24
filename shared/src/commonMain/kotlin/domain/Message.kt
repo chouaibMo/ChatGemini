@@ -1,5 +1,6 @@
 package domain
 
+import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -7,6 +8,7 @@ import kotlinx.datetime.toLocalDateTime
 data class Message(
     val sender: Sender,
     val text: String,
+    val images: List<ImageBitmap> = emptyList(),
     val isLoading: Boolean = false,
 ) {
     val time: String
