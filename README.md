@@ -1,12 +1,15 @@
+<p> 
+  <img src="./screenshots/cover.jpg" alt="cover">
+</p>
 <h1 align=center> ChatGEMINI 📲</h1>  
 
-<p> 
-  <img src="./screenshots/cover.png" alt="cover">
-</p>
+<a href="https://getstream.io?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_Android_Video_SDK&utm_term=DevRelOss">
+<img src="./screenshots/logo.png" align="right" width="12%"/>
+</a>
 
 ## 💡 Description
 
-A chatbot multiplatform app (Android, iOS and Desktop) built with Compose Multiplatform and powered by [Gemini Pro API](https://ai.google.dev/docs).
+A multiplatform chatbot app (Android, iOS and Desktop) built with Compose Multiplatform and powered by [Gemini Pro API](https://ai.google.dev/docs).
 
 ## 📱 Supported platforms
 this project supports the following platforms:
@@ -17,14 +20,25 @@ this project supports the following platforms:
 Browser support is not available yet. It will be added in the future.
 Note: the project is still in development and not all features are available on all platforms.
 
+## ✨ Features
+this project integrates the following features:
+* Generate text from text-only input
+* Generate text from text-and-image input (multimodal)
+* Support for multiple languages
+* Support dark and light modes
+* Support markdown formatting
+* Set your personal API key
+
 ## ⚙️ Before you Start
 
 Before you run the project, you need to get an API key from https://ai.google.dev in order to communicate with the Gemini API.
 Once the key is obtained, assign it the the constant `API_KEY` in the `GeminiService.kt` file:
 
 ```kotlin
-const val API_KEY = "YOUR_API_KEY"
+private var apiKey: String = "YOUR_API_KEY"
 ```
+
+or you can set it from the app settings screen.
 
 ## 🤝 Contribution
 
