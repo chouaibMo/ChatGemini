@@ -3,6 +3,7 @@ package data.repository
 import data.network.GeminiService
 import domain.model.Status
 import domain.repository.GeminiRepository
+import io.ktor.utils.io.errors.IOException
 
 class GeminiRepositoryImpl : GeminiRepository {
 
@@ -10,16 +11,22 @@ class GeminiRepositoryImpl : GeminiRepository {
 
     override suspend fun generate(prompt: String, images: List<ByteArray>): Status {
         return try {
-            val response = if (images.isEmpty()) {
-                geminiService.generateContent(prompt)
-            } else {
-                geminiService.generateContentWithMedia(prompt, images)
-            }.getText()
+            val response = when {
+                images.isEmpty() -> geminiService.generateContent(prompt)
+                else -> geminiService.generateContentWithMedia(prompt, images)
+            }
 
-            response?.let { Status.Success(it) } ?: Status.Error("An error occurred, please retry.")
+            val status = response.error?.let {
+                Status.Error(it.message)
+            } ?: response.getText()?.let {
+                Status.Success(it)
+            } ?: Status.Error("An error occurred, please retry.")
 
+            status
+
+        } catch (e: IOException) {
+            Status.Error("Unable to connect to the server. Please check your internet connection and try again.")
         } catch (e: Exception) {
-            e.printStackTrace()
             Status.Error("An error occurred, please retry.")
         }
     }

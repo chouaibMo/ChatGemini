@@ -70,11 +70,11 @@ fun CustomAppBar(onActionClick: () -> Unit = {}, modifier: Modifier = Modifier) 
                 Row {
                     Spacer(modifier = Modifier.width(10.dp))
                     Image(
-                        painter = painterResource("gemini3.jpeg"),
+                        painter = painterResource("logo.png"),
                         contentDescription = "Compose Multiplatform icon",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(45.dp)
                             .clip(CircleShape)
                             .clickable {}
                     )

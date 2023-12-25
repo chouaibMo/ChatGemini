@@ -7,9 +7,13 @@ build/
 /captures
 .externalNativeBuild
 .cxx
+androidApp/build/
+androidApp/release/
+androidApp/debug/
 iosApp/Podfile.lock
 iosApp/Pods/*
 iosApp/iosApp.xcworkspace/*
 iosApp/iosApp.xcodeproj/*
 !iosApp/iosApp.xcodeproj/project.pbxproj
 shared/shared.podspec
+keystore_chatgemini
