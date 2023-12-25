@@ -75,19 +75,13 @@ class GeminiService {
     }
 
     private suspend fun makeApiRequest(url: String, requestBuilder: Request.RequestBuilder.() -> Unit): Response {
-        try {
-            val request = Request.RequestBuilder().apply(requestBuilder).build()
+        val request = Request.RequestBuilder().apply(requestBuilder).build()
 
-            val response: String = client.post(url) {
-                body = Json.encodeToString(request)
-            }.bodyAsText()
+        val response: String = client.post(url) {
+            body = Json.encodeToString(request)
+        }.bodyAsText()
 
-            return Json.decodeFromString(response)
-
-        } catch (e: Exception) {
-            println("Error during API request: ${e.message}")
-            throw e
-        }
+        return Json.decodeFromString(response)
     }
 
     // endregion

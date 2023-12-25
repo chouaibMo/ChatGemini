@@ -6,25 +6,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Response(
-    @SerialName("candidates") val candidates: List<Candidate>,
+    @SerialName("candidates") val candidates: List<Candidate> = emptyList(),
     @SerialName("promptFeedback") val promptFeedback: PromptFeedback? = null,
+    @SerialName("error") val error: Error? = null,
 ) {
-    fun getText(): String? {
-        if (candidates.isEmpty()) {
-            println("No candidates were found, but was asked to get a candidate.")
-            return null
-        }
-
-        val parts = candidates.first().content?.parts
-
-        return parts?.let {
-            println("Returning first part of ${it.size} parts.")
-            it.firstOrNull()?.text
-        } ?: run {
-            println("No parts were found, but was asked to get a candidate.")
-            null
-        }
-    }
+    fun getText(): String? =
+        candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
 }
 
 @Serializable
@@ -56,3 +43,11 @@ data class SafetyRating(
     @SerialName("category") val category: String,
     @SerialName("probability") val probability: String
 )
+
+@Serializable
+data class Error(
+    @SerialName("code") val code: Int,
+    @SerialName("message") val message: String,
+    @SerialName("status") val status: String,
+
+    )
