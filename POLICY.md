@@ -33,6 +33,6 @@ We may update this Privacy Policy from time to time. Any changes will be reflect
 
 ## 7. Contact Us:
 
-If you have any questions or concerns about this Privacy Policy, please contact us.
+If you have any questions or concerns about this Privacy Policy, please contact us at contact.chatgemini@gmail.com.
 
 Thank you for using ChatGemini!
