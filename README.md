@@ -1,7 +1,6 @@
 <p> 
   <img src="./screenshots/cover.jpg" alt="cover">
 </p>
-<h1 align=center> ChatGEMINI 📲</h1>  
 
 <a href="https://getstream.io?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_Android_Video_SDK&utm_term=DevRelOss">
 <img src="./screenshots/logo.png" align="right" width="12%"/>
