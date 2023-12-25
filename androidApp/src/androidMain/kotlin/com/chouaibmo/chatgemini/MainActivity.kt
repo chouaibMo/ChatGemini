@@ -1,4 +1,4 @@
-package com.myapplication
+package com.chouaibmo.chatgemini
 
 import MainView
 import android.os.Bundle
