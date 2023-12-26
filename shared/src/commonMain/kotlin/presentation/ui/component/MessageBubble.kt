@@ -100,7 +100,7 @@ inline fun MessageBubble(message: Message, modifier: Modifier = Modifier) {
                                     content = message.text,
                                     colors = markdownColor(
                                         text = LocalContentColor.current,
-                                        codeText = MaterialTheme.colorScheme.tertiaryContainer
+                                        codeText = MaterialTheme.colorScheme.onSurface
                                     ),
                                     modifier = Modifier.wrapContentWidth()
                                 )
