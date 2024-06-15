@@ -61,14 +61,8 @@ class GeminiService {
     // endregion
 
     // region API calls
-    suspend fun generateContent(prompt: String): Response {
-        return makeApiRequest("$BASE_URL/v1beta/models/gemini-pro:generateContent?key=$apiKey") {
-            addText(prompt)
-        }
-    }
-
-    suspend fun generateContentWithMedia(prompt: String, images: List<ByteArray>): Response {
-        return makeApiRequest("$BASE_URL/v1beta/models/gemini-pro-vision:generateContent?key=$apiKey") {
+    suspend fun generateContent(prompt: String, images: List<ByteArray>): Response {
+        return makeApiRequest("$BASE_URL/v1beta/models/gemini-1.5-pro:generateContent?key=$apiKey") {
             addText(prompt)
             addImages(images)
         }

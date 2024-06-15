@@ -9,6 +9,7 @@ data class Response(
     @SerialName("candidates") val candidates: List<Candidate> = emptyList(),
     @SerialName("promptFeedback") val promptFeedback: PromptFeedback? = null,
     @SerialName("error") val error: Error? = null,
+    @SerialName("usageMetadata") val usageMetadata: UsageMetadata? = null,
 ) {
     fun getText(): String? =
         candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
@@ -49,5 +50,11 @@ data class Error(
     @SerialName("code") val code: Int,
     @SerialName("message") val message: String,
     @SerialName("status") val status: String,
+)
 
-    )
+@Serializable
+data class UsageMetadata(
+    val promptTokenCount: Int,
+    val candidatesTokenCount: Int,
+    val totalTokenCount: Int
+)
