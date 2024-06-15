@@ -11,10 +11,7 @@ class GeminiRepositoryImpl : GeminiRepository {
 
     override suspend fun generate(prompt: String, images: List<ByteArray>): Status {
         return try {
-            val response = when {
-                images.isEmpty() -> geminiService.generateContent(prompt)
-                else -> geminiService.generateContentWithMedia(prompt, images)
-            }
+            val response = geminiService.generateContent(prompt, images)
 
             val status = response.error?.let {
                 Status.Error(it.message)
