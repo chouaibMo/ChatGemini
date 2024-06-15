@@ -1,8 +1,9 @@
-#ChatGemini Privacy Policy
+# ChatGemini Privacy Policy
 
 Last Updated: 25-12-2023
 
-Welcome to ChatGemini! This Privacy Policy is here to help you understand how your personal information is handled when you use our application.
+Welcome to ChatGemini!    
+This Privacy Policy is here to help you understand how your personal information is handled when you use our application.
 
 ## 1. Information We Do Not Collect:
 
@@ -32,6 +33,6 @@ We may update this Privacy Policy from time to time. Any changes will be reflect
 
 ## 7. Contact Us:
 
-If you have any questions or concerns about this Privacy Policy, please contact us at [your contact email].
+If you have any questions or concerns about this Privacy Policy, please contact us at contact.chatgemini@gmail.com.
 
 Thank you for using ChatGemini!
